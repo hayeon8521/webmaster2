@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.yedam.dao.MemberMapper">
+	<!-- 아이디는 메소드이름 resultType = 멤버 클래스 타입 -->
+	<select id="members" resultType="com.yedam.vo.Member">
+		select * from tbl_member
+	</select>
+	<!-- 멤버에 있는 필드 파라메타 당겨서 써야해서 파라메타타입으로 함 -->
+	<insert id="insertMember" parameterType="com.yedam.vo.Member">
+		insert into tbl_member (member_id, member_name, password, phone)
+		values(#{memberid}, #{memberName}, #{password}, #{phone})
+	</insert>
+	
+	<update id="updateMember" parameterType="com.yedam.vo.Member">
+		update tbl_member set CREATION_DATE = creation_date
+		<if test="memberName != null">
+			,member_name = #{memberName}
+		</if>
+		<if test="phone != null">
+			,phone = #{phone}
+		</if>
+		<if test="password != null">
+			,password = #{password}
+		</if>
+		where member_id = #{memberid}
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		delete from tbl_member
+		where member_id = #{memberid}
+	</delete>
+</mapper>
